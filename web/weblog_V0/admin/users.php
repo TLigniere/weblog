@@ -13,11 +13,12 @@
 $roles = getAdminRoles(); // table roles
 // Get all admin users from DB
 $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table users
-$isEditingUser = $_GET["edit-admin"];
+$isEditingUser = $_GET["edit-admin"] ?? "";
 $username="";
 $email="";
+
 if ($isEditingUser){
-	$result = getAdmin($isEditingUser)->fetch_assoc();
+	$result = getAdmin($isEditingUser);
 	$admin_id=$isEditingUser;
 	$username=$result["username"];
 	$email=$result["email"];	

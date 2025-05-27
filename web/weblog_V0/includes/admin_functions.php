@@ -1,5 +1,5 @@
 <?php
-//include('config.php');
+include('config.php');
 
 
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -7,7 +7,7 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if (isset($_GET["edit-admin"])) {
     
     $id = $_GET['edit-admin'] ?? '';
-    $oldValues=getAdmin($id)->fetch_assoc();
+    $oldValues=getAdmin($id);
 
     $username = $_POST["username"] ?? $oldValues["username"];
     $email = $_POST['email'] ?? $oldValues["email"];
