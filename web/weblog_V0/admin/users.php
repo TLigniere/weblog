@@ -13,7 +13,15 @@
 $roles = getAdminRoles(); // table roles
 // Get all admin users from DB
 $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table users
-$isEditingUser = $_POST["EditUser"];
+$isEditingUser = $_GET["edit-admin"];
+$username="";
+$email="";
+if ($isEditingUser){
+	$result = getAdmin($isEditingUser)->fetch_assoc();
+	$admin_id=$isEditingUser;
+	$username=$result["username"];
+	$email=$result["email"];	
+}
 ?>
 
 
@@ -84,7 +92,7 @@ $isEditingUser = $_POST["EditUser"];
 
 						<?php while ($admin = $admins->fetch_assoc()) { ?>
 							<tr>
-								<td><?php echo $admin["id"]?></td>
+								<td><?php echo $admin["id"];?></td>
 								<td>
 									<?php echo $admin['username']; ?>, &nbsp;
 									<?php echo $admin['email']; ?>

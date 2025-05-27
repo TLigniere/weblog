@@ -4,7 +4,7 @@
 <?php include(ROOT_PATH . '/includes/admin/head_section.php'); ?>
 
 <?php
-	$topics = getAllTopics();	
+	$topics = getTopics();	
 ?>
 
 <title>Admin | Create Post</title>

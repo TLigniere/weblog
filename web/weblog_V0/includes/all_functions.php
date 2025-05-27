@@ -1,5 +1,5 @@
 <?php
-include('../config.php');
+include('config.php');
 
 function getAllPosts() {
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -22,5 +22,12 @@ function getAllPosts() {
         return $result;
     }
     return [];
+}
+
+function getTopics(){
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $sql = "SELECT * FROM topics";
+    $result = $conn->query($sql);
+    return $result;
 }
 ?>
