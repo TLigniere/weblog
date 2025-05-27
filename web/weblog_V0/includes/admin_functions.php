@@ -1,8 +1,44 @@
 <?php
-include('config.php');
+//include('config.php');
 
 
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if (isset($_GET["edit-admin"])) {
+    
+    $id = $_GET['edit-admin'] ?? '';
+    $oldValues=getAdmin($id)->fetch_assoc();
+
+    $username = $_POST["username"] ?? $oldValues["username"];
+    $email = $_POST['email'] ?? $oldValues["email"];
+    $role = $_POST['role_id'] ?? $oldValues["role"];
+    $password = $_POST['password'] ?? $oldValues["password"];
+    $password_confirmation = $_POST['passwordConfirmation'] ?? $oldValues["password"];
+
+    if ($username && $email && $role && $password && ($password==$password_confirmation)) {
+        if ($_POST["password"]!=""){
+            $hashedPassword = md5($password);
+        } else {
+            $hashedPassword = $password;
+        }
+        $now = date('Y-m-d H:i:s');
+
+        $stmt = $conn->prepare("UPDATE users SET username = ?, email = ?, role = ?, password = ?, updated_at = ? WHERE id=?");
+        $stmt->bind_param("ssssss", $username, $email, $role, $hashedPassword, $now, $id);
+
+        if ($stmt->execute()) {
+            $_SESSION["message"] = "Utilisateur modifier avec succès";
+        } else {
+            $_SESSION["message"] = "Erreur lors durant enregistrement :   '$stmt->error'";
+        }
+
+        $stmt->close();
+    } else {
+        $_SESSION["message"] = "Tous les champs sont requis.'$username,$email,$role,$password,$password_confirmation'";
+    }
+}
+
+
 
 if (isset($_POST["create_admin"]) && !isset($_GET["edit-admin"])) {
     $username = $_POST['username'] ?? '';
@@ -31,39 +67,6 @@ if (isset($_POST["create_admin"]) && !isset($_GET["edit-admin"])) {
     }
 }
 
-if (isset($_GET["edit-admin"])) {
-    
-    $id = $_GET['edit-admin'] ?? '';
-    $oldValues=getAdmin($id)->fetch_assoc();
-
-    $username = $_POST["username"] ?? $oldValues["username"];
-    $email = $_POST['email'] ?? $oldValues["email"];
-    $role = $_POST['role_id'] ?? $oldValues["role"];
-    $password = $_POST['password'] ?? $oldValues["password"];
-    $password_confirmation = $_POST['passwordConfirmation'] ?? $oldValues["password"];
-
-    if ($username && $email && $role && $password && ($password==$password_confirmation)) {
-        if ($_POST["password"]!=""){
-            $hashedPassword = md5($password);
-        } else {
-            $hashedPassword = $password;
-        }
-        $now = date('Y-m-d H:i:s');
-
-        $stmt = $conn->prepare("UPDATE users SET username = ?, email = ?, role = ?, password = ?, updated_at = ? WHERE id=?");
-        $stmt->bind_param("sssssi", $username, $email, $role, $hashedPassword, $now, $id);
-
-        if ($stmt->execute()) {
-            $_SESSION["message"] = "Utilisateur modifier avec succès";
-        } else {
-            $_SESSION["message"] = "Erreur lors durant enregistrement :   '$stmt->error'";
-        }
-
-        $stmt->close();
-    } else {
-        $_SESSION["message"] = "Tous les champs sont requis.'$username,$email,$role,$password,$password_confirmation'";
-    }
-}
 
 if (isset($_GET["delete-admin"])){
     deleteUser($_GET["delete-admin"]);
@@ -97,8 +100,9 @@ function getAdminRoles(){
 
 function getAdmin($id){
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    $sql = "SELECT users.* FROM users WHERE id=$id";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM users WHERE id=$id";
+    $query = $conn->query($sql);
+    $result = $query->fetch_assoc();
     return ($result);
 }
 

@@ -1,5 +1,5 @@
 <?php include('../config.php'); ?>
-<?php include(ROOT_PATH . '/includes/admin_functions.php'); ?>
+<?php include(ROOT_PATH . '/includes/admin_functions.php');?>
 <?php include(ROOT_PATH . '/includes/admin/head_section.php'); ?>
 
 <title>Admin | Manage users</title>
@@ -27,10 +27,10 @@ if ($isEditingUser){
 
 
 	<!-- admin navbar -->
-	<?php include(ROOT_PATH . '/includes/admin/header.php') ?>
+	<?php include(ROOT_PATH . '/includes/admin/header.php'); ?>
 	<div class="container content">
 		<!-- Left side menu -->
-		<?php include(ROOT_PATH . '/includes/admin/menu.php') ?>
+		<?php include(ROOT_PATH . '/includes/admin/menu.php'); ?>
 
 		<!-- Middle form - to create and edit  -->
 		<div class="action">
@@ -48,7 +48,7 @@ if ($isEditingUser){
 
 				<input type="text" name="username" value="<?php echo $username; ?>" placeholder="Username">
 
-				<input type="email" name="email" value="<?php echo $email ?>" placeholder="Email">
+				<input type="email" name="email" value="<?php echo $email; ?>" placeholder="Email">
 				<input type="password" name="password" placeholder="Password">
 				<input type="password" name="passwordConfirmation" placeholder="Password confirmation">
 
