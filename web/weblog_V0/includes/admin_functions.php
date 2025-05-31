@@ -4,9 +4,9 @@ include('config.php');
 
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-if (isset($_GET["edit-admin"])) {
+if (isset($_POST["update_admin"]) ) {
     
-    $id = $_GET['edit-admin'] ?? '';
+    $id = $_POST['admin_id'] ?? '0';
     $oldValues=getAdmin($id);
 
     $username = $_POST["username"] ?? $oldValues["username"];
@@ -15,7 +15,7 @@ if (isset($_GET["edit-admin"])) {
     $password = $_POST['password'] ?? $oldValues["password"];
     $password_confirmation = $_POST['passwordConfirmation'] ?? $oldValues["password"];
 
-    if ($username && $email && $role && $password && ($password==$password_confirmation)) {
+    if (isset($id) && isset($username) && isset($email) && isset($role) && isset($password) && ($password==$password_confirmation)) {
         if ($_POST["password"]!=""){
             $hashedPassword = md5($password);
         } else {
@@ -34,7 +34,8 @@ if (isset($_GET["edit-admin"])) {
 
         $stmt->close();
     } else {
-        $_SESSION["message"] = "Tous les champs sont requis.'$username,$email,$role,$password,$password_confirmation'";
+        $_SESSION["message"] = "Tous les champs sont requis.'$id,$oldValues[username],$oldValues[email],$oldValues[role],$oldValues[password]'";
+        //$_SESSION["message"] = "Tous les champs sont requis.'$username,$email,$role,$password,$password_confirmation'";
     }
 }
 
@@ -100,10 +101,10 @@ function getAdminRoles(){
 
 function getAdmin($id){
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    $sql = "SELECT * FROM users WHERE id=$id";
+    $sql = "SELECT * FROM users WHERE id= '$id'" ;
     $query = $conn->query($sql);
     $result = $query->fetch_assoc();
-    return ($result);
+    return $result;
 }
 
 function getAdminUsers(){

@@ -43,7 +43,7 @@ if ($isEditingUser){
 				<?php include(ROOT_PATH . '/includes/public/errors.php') ?>
 
 				<!-- if editing user, the id is required to identify that user -->
-				<?php if ($isEditingUser === true) : ?>
+				<?php if ($isEditingUser == true) : ?>
 					<input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
 				<?php endif ?>
 
@@ -63,8 +63,8 @@ if ($isEditingUser){
 				</select>
 
 				<!-- if editing user, display the update button instead of create button -->
-				<?php if ($isEditingUser === true) : ?>
-					<button type="submit" class="btn" name="update_admin">UPDATE</button>
+				<?php if ($isEditingUser == true) : ?>
+					<button type="submit" class="btn" name="update_admin" value=<?php echo $_GET["edit-admin"];?> >UPDATE</button>
 				<?php else : ?>
 					<button type="submit" class="btn" name="create_admin">Save User</button>
 				<?php endif ?>

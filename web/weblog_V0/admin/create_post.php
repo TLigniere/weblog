@@ -41,7 +41,7 @@
 				</select>
 
 				<?php if ($isEditingPost === true): ?> 
-					<button type="submit" class="btn" name="update_post">UPDATE</button>
+					<button type="submit" class="btn" name="update_post" value=<?php $_GET["edit-admin"]?> >UPDATE</button>
 				<?php else: ?>
 					<button type="submit" class="btn" name="create_post">Save Post</button>
 				<?php endif ?>
