@@ -68,6 +68,33 @@ if (isset($_POST["create_admin"]) && !isset($_GET["edit-admin"])) {
     }
 }
 
+if (isset($_POST["create_topic"])){
+    $name = $_POST["name"];
+    $slug = strtolower($name);
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $sql = "INSERT INTO topics (name, slug) VALUES ('$name', '$slug')";
+    $result = $conn->query($sql);
+    if ($result){
+        $_SESSION["message"] = "Topic created successfully";
+    } else {
+        $_SESSION["message"] = "Error creating topic: '$conn->error'";
+    }
+}
+
+if (isset($_POST["update_topic"])){
+    $id = $_POST["topic_id"];
+    $name = $_POST["name"];
+    $slug = strtolower($name);
+
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $sql = "UPDATE topics SET name='$name', slug='$slug' WHERE id='$id'";
+    $result = $conn->query($sql);
+    if ($result){
+        $_SESSION["message"] = "Topic updated successfully";
+    } else {
+        $_SESSION["message"] = "Error updating topic: '$conn->error'";
+    }
+}
 
 if (isset($_GET["delete-admin"])){
     deleteUser($_GET["delete-admin"]);
@@ -75,6 +102,10 @@ if (isset($_GET["delete-admin"])){
 
 if (isset($_GET["delete-topic"])){
     deleteTopic($_GET["delete-topic"]);
+}
+
+if (isset($_GET["delete-post"])){
+    deletePost($_GET["delete-post"]);
 }
 
 function deleteTopic($id){
@@ -86,6 +117,17 @@ function deleteTopic($id){
     }
     return FALSE;
     
+}
+
+function deletePost($id){
+    $sql = "DELETE FROM posts WHERE id='$id'";
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $result = $conn->query($sql);
+    if ($result){
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
 function getAdminRoles(){
@@ -141,6 +183,17 @@ function getNumberComments(){
     $result = $conn->query($sql);
     $N_comments = ($result->fetch_assoc())["N_comments"];
     return $N_comments;
+}
+
+function getTopic($id){
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $sql = "SELECT * FROM topics WHERE id='$id'";
+    $result = $conn->query($sql);
+    if ($result){
+        return $result->fetch_assoc();
+    } else {
+        return [];
+    }
 }
 
 function deleteUser($User_id){
