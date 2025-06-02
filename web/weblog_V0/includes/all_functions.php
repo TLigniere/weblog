@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('../config.php');
 
 function getAllPosts() {
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);

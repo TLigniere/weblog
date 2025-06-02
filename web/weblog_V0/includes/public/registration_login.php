@@ -22,6 +22,7 @@ if (isset($_POST["login_btn"])) {
 
         if ($result_value["password"] && $result_value["username"]) {
             $_SESSION["user"]["username"] = $username;
+            $_SESSION["user"]["role"] = $result_value["role"];
             
             echo("<meta http-equiv='refresh' content='1'>");
             $_SESSION["message"] = "Bienvenue sur votre session '$username'";
