@@ -95,6 +95,8 @@ if (isset($_POST["update_topic"])){
     }
 }
 
+
+
 if (isset($_GET["delete-admin"])){
     deleteUser($_GET["delete-admin"]);
 }
