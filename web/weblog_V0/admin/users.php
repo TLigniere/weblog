@@ -1,12 +1,10 @@
 <?php include('../config.php'); ?>
-<?php include(ROOT_PATH . '/includes/admin_functions.php'); ?>
+<?php include(ROOT_PATH . '/includes/admin_functions.php');?>
 <?php include(ROOT_PATH . '/includes/admin/head_section.php'); ?>
 
 <title>Admin | Manage users</title>
 </head> 
 
-//!BTW: ideally we need to create a role_user table (users<---->role_user<----->roles)
-	// role_user(id, user_id,role_id) 
 
 <body>
 
@@ -15,15 +13,25 @@
 $roles = getAdminRoles(); // table roles
 // Get all admin users from DB
 $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table users
+$isEditingUser = $_GET["edit-admin"] ?? "";
+$username="";
+$email="";
+
+if ($isEditingUser){
+	$result = getAdmin($isEditingUser);
+	$admin_id=$isEditingUser;
+	$username=$result["username"];
+	$email=$result["email"];	
+}
 ?>
 
 
 
 	<!-- admin navbar -->
-	<?php include(ROOT_PATH . '/includes/admin/header.php') ?>
+	<?php include(ROOT_PATH . '/includes/admin/header.php'); ?>
 	<div class="container content">
 		<!-- Left side menu -->
-		<?php include(ROOT_PATH . '/includes/admin/menu.php') ?>
+		<?php include(ROOT_PATH . '/includes/admin/menu.php'); ?>
 
 		<!-- Middle form - to create and edit  -->
 		<div class="action">
@@ -35,13 +43,13 @@ $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table use
 				<?php include(ROOT_PATH . '/includes/public/errors.php') ?>
 
 				<!-- if editing user, the id is required to identify that user -->
-				<?php if ($isEditingUser === true) : ?>
+				<?php if ($isEditingUser == true) : ?>
 					<input type="hidden" name="admin_id" value="<?php echo $admin_id; ?>">
 				<?php endif ?>
 
 				<input type="text" name="username" value="<?php echo $username; ?>" placeholder="Username">
 
-				<input type="email" name="email" value="<?php echo $email ?>" placeholder="Email">
+				<input type="email" name="email" value="<?php echo $email; ?>" placeholder="Email">
 				<input type="password" name="password" placeholder="Password">
 				<input type="password" name="passwordConfirmation" placeholder="Password confirmation">
 
@@ -55,8 +63,8 @@ $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table use
 				</select>
 
 				<!-- if editing user, display the update button instead of create button -->
-				<?php if ($isEditingUser === true) : ?>
-					<button type="submit" class="btn" name="update_admin">UPDATE</button>
+				<?php if ($isEditingUser == true) : ?>
+					<button type="submit" class="btn" name="update_admin" value=<?php echo $_GET["edit-admin"];?> >UPDATE</button>
 				<?php else : ?>
 					<button type="submit" class="btn" name="create_admin">Save User</button>
 				<?php endif ?>
@@ -85,7 +93,7 @@ $admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table use
 
 						<?php while ($admin = $admins->fetch_assoc()) { ?>
 							<tr>
-								<td><?php echo $admin["id"]?></td>
+								<td><?php echo $admin["id"];?></td>
 								<td>
 									<?php echo $admin['username']; ?>, &nbsp;
 									<?php echo $admin['email']; ?>
