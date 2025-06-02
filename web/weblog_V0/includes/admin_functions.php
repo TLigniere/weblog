@@ -70,7 +70,7 @@ if (isset($_POST["create_admin"]) && !isset($_GET["edit-admin"])) {
 
 if (isset($_POST["create_topic"])){
     $name = $_POST["name"];
-    $slug = strtolower($name);
+    $slug = strtolower(str_replace(' ', '-', $name));
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     $sql = "INSERT INTO topics (name, slug) VALUES ('$name', '$slug')";
     $result = $conn->query($sql);
@@ -84,8 +84,7 @@ if (isset($_POST["create_topic"])){
 if (isset($_POST["update_topic"])){
     $id = $_POST["topic_id"];
     $name = $_POST["name"];
-    $slug = strtolower($name);
-
+    $slug = strtolower(str_replace(' ', '-', $name));
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     $sql = "UPDATE topics SET name='$name', slug='$slug' WHERE id='$id'";
     $result = $conn->query($sql);
