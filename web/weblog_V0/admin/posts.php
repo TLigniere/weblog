@@ -35,6 +35,7 @@
 						<th>Image</th>
 						<th>Topic</th>
 						<th>Created at</th>
+						<th>Delete</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -54,6 +55,9 @@
 							</td>
 							<td><?php echo htmlspecialchars($post['topic']); ?></td>
 							<td><?php echo date("d M Y", strtotime($post['created_at'])); ?></td>
+							<td>
+								<a class="fa fa-trash btn delete" href="posts.php?delete-post=<?php echo $post['id']; ?>"></a>
+							</td>
 						</tr>
 					<?php } ?>
 				</tbody>
