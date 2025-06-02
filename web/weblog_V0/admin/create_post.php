@@ -1,5 +1,6 @@
 <?php include('../config.php'); ?>
 <?php include(ROOT_PATH . '/includes/admin_functions.php'); ?>
+<?php include(ROOT_PATH . '/includes/all_functions.php'); ?>
 <?php include(ROOT_PATH . '/admin/post_functions.php'); ?>
 <?php include(ROOT_PATH . '/includes/admin/head_section.php'); ?>
 
@@ -41,7 +42,7 @@
 				</select>
 
 				<?php if ($isEditingPost === true): ?> 
-					<button type="submit" class="btn" name="update_post" value=<?php $_GET["edit-admin"]?> >UPDATE</button>
+					<button type="submit" class="btn" name="update_post">UPDATE</button>
 				<?php else: ?>
 					<button type="submit" class="btn" name="create_post">Save Post</button>
 				<?php endif ?>
