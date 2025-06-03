@@ -9,6 +9,12 @@
 		|
 		<span><a href="logout.php">logout</a></span>
 	</div>
+<?php if ($_SESSION['user']['role']=="Author") { ?>
+		<div style="margin-top: 1rem;">
+		<a href="<?php echo 'http://localhost/admin/create_post.php';?>">Create a post</a>
+		</div>
+<?php } ?>
+
 <?php } else { ?>
 	<?php include(ROOT_PATH . '/includes/public/registration_login.php') ?>
 	<div class="banner">
