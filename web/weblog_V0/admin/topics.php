@@ -79,7 +79,7 @@ if ($isEditingTopics) {
 								</a>
 							</td>
                         </tr>
-                    <?php } //TODO : ADD FUNCTION TO EDIT/DELETE TOPICS ?>
+                    <?php } ?>
 
         </div>
     </div>
