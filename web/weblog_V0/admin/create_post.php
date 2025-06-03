@@ -8,6 +8,18 @@
 
 <?php
 	$topics = getTopics();	
+
+$isEditingPost = $_GET["edit-post"] ?? "";
+$title="";
+$body="";
+
+if ($isEditingPost){
+	$result = getPost($isEditingPost);
+	$post_id=$isEditingPost;
+	$title=$result["name"];
+	$body=$result["body"];
+	$author=$result["author"];
+}
 ?>
 
 <title>Admin | Create Post</title>
@@ -30,7 +42,7 @@
 				<input type="text" name="title" value="<?php echo $title; ?>" placeholder="Title" required>
 
 				<label>Featured image</label>
-				<input type="file" name="featured_image">
+				<input type="file" name="featured_image" enctype="multipart/form-data">
 
 				<textarea name="body" id="body"><?php echo $body; ?></textarea>
 
@@ -43,8 +55,8 @@
 					<?php endforeach ?>
 				</select>
 
-				<?php if ($isEditingPost === true): ?> 
-					<button type="submit" class="btn" name="update_post" value=<?php $_GET["edit-admin"]?> >UPDATE</button>
+				<?php if ($isEditingPost == true): ?> 
+					<button type="submit" class="btn" name="update_post" value=<?php $_GET["edit-post"]?> >UPDATE</button>
 				<?php else: ?>
 					<button type="submit" class="btn" name="create_post">Save Post</button>
 				<?php endif ?>

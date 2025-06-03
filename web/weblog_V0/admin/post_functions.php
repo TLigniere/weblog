@@ -11,10 +11,39 @@ $featured_image = "";
 $isEditingPost = false;
 $post_id = 0;
 
-// Enregistrer un post
+
+
+
 if (isset($_POST['create_post'])) {
-    createPost($_POST);
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    $title = esc($_POST['title']);
+    $body = esc($_POST['body']);
+    $published = isset($_POST['published']) ? 1 : 0;
+    $topic_id = esc($_POST['topic_id']);
+    $user_id = $_SESSION['user']["id"] ?? 1; 
+    $slug = strtolower(str_replace(' ', '-', $title));
+
+    // Image
+    $image = $_FILES['featured_image']['name'];
+    $target = "../static/images/" . basename($image);
+
+    if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $target)) {
+
+        $query = "INSERT INTO posts (user_id, title, slug, image, body, published, created_at, updated_at) 
+                  VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("isssi", $user_id, $title, $slug, $image, $body, $published);
+        if (!$stmt->execute()) {
+            die("Execute failed: " . $stmt->error);
+        }
+        $_SESSION['message'] = "Post created successfully, $user_id, $title, $image, $body, $topic_id";
+        //exit();
+    } else {
+        $errors[] = "Failed to upload image.";
+    }
 }
+
 // Mettre à jour un post
 if (isset($_POST['update_post'])) {
     updatePost($_POST);
@@ -99,6 +128,17 @@ function updatePost($request_values)
     $stmt->execute();
     header("Location: posts.php");
     exit();
+}
+
+function getPost($post_id)
+{
+    global $conn;
+    $query = "SELECT * FROM posts WHERE id=?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $post_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
 }
 
 // Fonction pour échapper les données

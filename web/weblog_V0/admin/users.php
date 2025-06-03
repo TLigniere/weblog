@@ -9,10 +9,10 @@
 <body>
 
 <?php
-// Get all admin roles from DB : by admin roles i mean (Admin or Author)
-$roles = getAdminRoles(); // table roles
-// Get all admin users from DB
-$admins = getAdminUsers(); // by admin roles i mean (Admin or Author), table users
+
+$roles = getAdminRoles(); 
+
+$admins = getAdminUsers(); 
 $isEditingUser = $_GET["edit-admin"] ?? "";
 $username="";
 $email="";
