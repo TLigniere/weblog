@@ -210,6 +210,13 @@ ALTER TABLE `users`
 ALTER TABLE `topics`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+
+--
+-- AUTO_INCREMENT for table `post_topic`
+--
+ALTER TABLE `post_topic`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Constraints for dumped tables
 --

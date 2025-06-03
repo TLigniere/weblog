@@ -29,15 +29,26 @@ if (isset($_POST['create_post'])) {
     $target = "../static/images/" . basename($image);
 
     if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $target)) {
-
+        // CREATION DU POST
         $query = "INSERT INTO posts (user_id, title, slug, image, body, published, created_at, updated_at) 
                   VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("isssi", $user_id, $title, $slug, $image, $body, $published);
+        $stmt->bind_param("issssi", $user_id, $title, $slug, $image, $body, $published);
         if (!$stmt->execute()) {
             die("Execute failed: " . $stmt->error);
         }
-        $_SESSION['message'] = "Post created successfully, $user_id, $title, $image, $body, $topic_id";
+        // ASSIGNATION DU TOPIC AU POST
+        $post_id = $stmt->insert_id;
+
+        $query_topic = "INSERT INTO post_topic (post_id, topic_id) VALUES (?, ?)";
+        $stmt_topic = $conn->prepare($query_topic);
+        $stmt_topic->bind_param("ii", $post_id, $topic_id);
+
+        if (!$stmt_topic->execute()) {
+            die("Execute failed (post_topic): " . $stmt_topic->error);
+        }
+
+
         //exit();
     } else {
         $errors[] = "Failed to upload image.";
