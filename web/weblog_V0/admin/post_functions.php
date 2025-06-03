@@ -21,7 +21,7 @@ if (isset($_POST['create_post'])) {
     $body = esc($_POST['body']);
     $published = isset($_POST['published']) ? 1 : 0;
     $topic_id = esc($_POST['topic_id']);
-    $user_id = $_SESSION['user']["id"] ?? 1; 
+    $user_id = $_SESSION['user']['id'] ?? 1; 
     $slug = strtolower(str_replace(' ', '-', $title));
 
     // Image

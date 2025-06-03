@@ -22,11 +22,11 @@ if (isset($_POST["login_btn"])) {
 
         if ($result_value["password"] && $result_value["username"]) {
             $_SESSION["user"]["username"] = $username;
-            $_SESSION["user"]["id"] = $result_value["id"];
+            $_SESSION['user']['id'] = $result_value["id"];
             $_SESSION["user"]["role"] = $result_value["role"];
             
             echo("<meta http-equiv='refresh' content='1'>");
-            $_SESSION["message"] = "Bienvenue sur votre session '$username'";
+            $_SESSION["message"] = "Bienvenue sur votre session '$username','$id'";
             //echo '<script type="text/JavaScript"> window.location.reload()</script>';
 
 
